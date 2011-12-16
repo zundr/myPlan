@@ -27,6 +27,7 @@ public enum MsisdnType {
     ES_SIMYO ("Simyo", true),
     ES_VODAFONE ("Vodafone", true),
     ES_YOIGO ("Yoigo", true),
+    ES_TUENTI ("Tuenti", true),
     UNKNOWN ("Móvil Desconocido", true),
     ES_LAND_LINE ("Telefono Fijo", false),
     ES_LAND_LINE_SPECIAL ("Especial (90x)", false),
