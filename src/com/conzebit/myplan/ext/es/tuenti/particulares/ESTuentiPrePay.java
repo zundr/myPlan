@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with myPlan.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.conzebit.myplan.ext.es.orange.particulares;
+package com.conzebit.myplan.ext.es.tuenti.particulares;
 
 import java.util.ArrayList;
 
@@ -35,64 +35,23 @@ import com.conzebit.myplan.ext.es.tuenti.ESTuenti;
  */
 public class ESTuentiPrePay extends ESTuenti {
     
-	private double minimumMonthFee = 0;
-	private double initialPrice = 0.15;
-	private double pricePerSecond = 0.08 / 60;
-	private double smsPrice = 0.08;
-	private int maxSecondsMonth = 3000 * 60;
-	private int maxSmsMonth = 3000;
-
+	public ESTuentiPrePay() {
+		monthFee = 0;
+		initialPrice = 0.15;
+		pricePerSecond = 0.08 / 60;
+		smsPrice = 0.08;
+		maxTuSecondsMonth = 3000 * 60;
+		maxTuSmsMonth = 3000;
+		maxOthersSecondsMonth = 0;
+		maxOthersSmsMonth = 0;
+	}
+	
 	public String getPlanName() {
-		return "Prepago";
+		return "Tuenti Prepago";
 	}
 	
 	public String getPlanURL() {
 		return "http://www.tuenti.com/#m=Tuwebstore&func=view_only_sim&ttype=prepay";
 	}
-
-	public Double getMinimumMonthFee() {
-		return minimumMonthFee;
-	}
-
-	public PlanSummary process(ArrayList<Chargeable> data) {
-		PlanSummary ret = new PlanSummary(this);
-		ret.addPlanCall(new PlanChargeable(new ChargeableMessage(ChargeableMessage.MESSAGE_MONTH_FEE), monthFee, this.getCurrency()));
-
-		long secondsTotal = 0;
-		long smsTotal = 0;
-		for (Chargeable chargeable : data) {
-			if (chargeable.getChargeableType() == Chargeable.CHARGEABLE_TYPE_CALL) {
-				Call call = (Call) chargeable;
-				if (call.getType() != Call.CALL_TYPE_SENT) {
-					continue;
-				}
-				
-				double callPrice = 0;
-				
-				if (call.getContact().getMsisdnType() == MsisdnType.ES_SPECIAL_ZER0) {
-					callPrice = 0;
-				} else {
-					secondsTotal += call.getDuration();
-					boolean discount = secondsTotal <= maxSecondsMonth; 
-					if (!discount) {
-						long duration = (secondsTotal > maxSecondsMonth) && (secondsTotal - call.getDuration() <= maxSecondsMonth)? secondsTotal - maxSecondsMonth : call.getDuration();  
-						callPrice += initialPrice + (duration * pricePerSecond);
-					}
-				}
-				ret.addPlanCall(new PlanChargeable(call, callPrice, this.getCurrency()));
-
-			} else if (chargeable.getChargeableType() == Chargeable.CHARGEABLE_TYPE_SMS) {
-				Sms sms = (Sms) chargeable;
-				if (sms.getType() == Sms.SMS_TYPE_RECEIVED) {
-					continue;
-				}
-
-				smsTotal++;
-				if (smsTotal > maxSmsMonth) {
-					ret.addPlanCall(new PlanChargeable(chargeable, smsPrice, this.getCurrency()));
-				}
-			}
-		}
-		return ret;
-	}
+	
 }

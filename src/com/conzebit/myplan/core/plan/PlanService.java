@@ -98,6 +98,11 @@ import com.conzebit.myplan.ext.es.pepephone.particulares.ESPepePhoneSinAnimal;
 import com.conzebit.myplan.ext.es.simyo.particulares.ESSimyo0y8centimos;
 import com.conzebit.myplan.ext.es.simyo.particulares.ESSimyo3centimos;
 import com.conzebit.myplan.ext.es.simyo.particulares.ESSimyo5centimos;
+import com.conzebit.myplan.ext.es.tuenti.particulares.ESTuentiPlan10;
+import com.conzebit.myplan.ext.es.tuenti.particulares.ESTuentiPlan20;
+import com.conzebit.myplan.ext.es.tuenti.particulares.ESTuentiPlan30;
+import com.conzebit.myplan.ext.es.tuenti.particulares.ESTuentiPlan40;
+import com.conzebit.myplan.ext.es.tuenti.particulares.ESTuentiPrePay;
 import com.conzebit.myplan.ext.es.vodafone.empresas.ESVodafoneConectaVozInternet;
 import com.conzebit.myplan.ext.es.vodafone.empresas.ESVodafoneSencillo;
 import com.conzebit.myplan.ext.es.vodafone.particulares.ESVodafoneAire90x124h;
@@ -141,7 +146,7 @@ public class PlanService {
 	
 	private PlanService() {
 		this.plans = new ArrayList<AbstractPlan>();
-
+		
 		this.plans.add(new ESEroskiMovilContigo());
 		this.plans.add(new ESEroskiMovilConekta());
 		this.plans.add(new ESEroskiMovilContratoSin());
@@ -254,6 +259,12 @@ public class PlanService {
 		this.plans.add(new ESYoigoLaDel6());
 		this.plans.add(new ESYoigoLaDel8());
 
+		this.plans.add(new ESTuentiPrePay());
+		this.plans.add(new ESTuentiPlan10());
+		this.plans.add(new ESTuentiPlan20());
+		this.plans.add(new ESTuentiPlan30());
+		this.plans.add(new ESTuentiPlan40());
+		
 		this.process(new ArrayList<Chargeable>());
 	}
 	
